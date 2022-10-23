@@ -8,4 +8,8 @@
 8. 这个是MenuView的类图，在这里解释的是，MenuView依赖于一个结构体CardContent，CardContent是一个用来储存底下功能按键的结构体，他包含了每一个功能按键的标题，图片以及触发函数，MenuView对外提供三个接口，setupStructs, addStruct和addStructs三个接口，对于此优化项目中只用到了setupStructs的接口，当时和导师进行讨论时候，此模块不仅可以用到图片模块依旧可以用到消息等模块的长按触发的功能，所以考虑到此模块的复用性，<tap>我从系统提供的UIView控件得到启发设置addStruct和addStructs接口，防止一些情况下需要添加功能按键的问题<tap>
 9. 我将以demo实现的形式去解释这个具体实现过程<tap>首先是这个相册页面<tap>我们长按这个cell<tap>这个时候就可以通过cell获取frame，生成一个一样大小的图层进行动画，<tap>后来我们再调用animate来更新frame，<tap>动画结束之后移除这个用来做动画的图层显示MenuView<tap>对于返回动画，核心的动画实现思路和长按时候是一致的，所以不过多赘述原理<tap>
 10. 这个是放到项目里面的功能实现<tap>
-11. 
+11. 接下来是点击卡片动作的介绍<tap>
+12. 标红的部分是这一部分要说明的内容，这一部分的动画和之前的长按动画在实现方法上，略有不同，这里是两个页面之间的跳转，需要用到了NavigationController去进行页面的入栈出栈，<tap>所以重构导航栏的动画需要用到UINavigationControllerDelegate<tap>
+13. <tap>重构动画需要在这个navigationController的方法里面写，当返回值为nil时候就是采用的系统默认的返回动画，当返回值为UIViewControllerAnimatedTransitiong的时候返回的则是我们自定义的动画，在之后我们就把它叫做动画控制器<tap>
+14. 这个是我在实现页面入栈和出栈时候的类图，入栈和出栈时候都需要实现上面这个协议，也就是前面所说的动画控制器<tap>
+15. <tap>这个是我们卡片点击动画的具体实现思路，进入详情页和详情页返回时候，进入delegate在delegate中进行push和pop的判断，然后返回相应的动画<tap>
